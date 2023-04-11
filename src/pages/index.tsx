@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styled from 'styled-components'
 import tree from '@/media/tree.svg'
-import { useRouter } from 'next/router'
 
 const StyleTitle =  styled.h2`
   font-size: large;
@@ -41,10 +40,9 @@ const StyledImg = styled.div`
   }
 `
 export default function Home() {
-  const router = useRouter()
 
   const navTo = (name : string) => {
-    router.push(`/${name}`)
+    window.location.replace(`/${name}`)
   }
   return (
     <>
