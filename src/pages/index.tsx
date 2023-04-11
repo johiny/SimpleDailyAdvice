@@ -40,6 +40,20 @@ const StyledImg = styled.div`
     filter: invert(61%) sepia(4%) saturate(1791%) hue-rotate(349deg) brightness(95%) contrast(82%);
   }
 `
+const StyleButton = styled.button`
+margin-top: 2vh;
+  padding: 2vh;
+  background-color:#A4907C;
+  border: none;
+  color: #F1DEC9;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  border-radius: 5px;
+  :hover{
+    background-color: #7e7061;
+  }
+`
 export default function Home() {
    const router = useRouter()
   const navTo = (name : string) => {
@@ -59,11 +73,14 @@ export default function Home() {
         </StyledImg>
       <StyleTitle>Get Your Daily Advice</StyleTitle>
       <StyledInput onKeyUp={(e) => {
-        if(e.key === 'Enter'){
+        if(e.key === "Enter"){
           navTo(e.currentTarget.value)
         }
-      }} placeholder='Enter your name and press
-     enter'/>
+      }} id='input' required placeholder='Enter your name'/>
+      <StyleButton onClick={() => {
+        const input = document.querySelector('#input') as HTMLInputElement
+        navTo(input.value)
+      }}>See your advice</StyleButton>
       </StyleContainer>
     </>
   )
