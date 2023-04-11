@@ -2,7 +2,7 @@ import styled from "styled-components"
 import leaf from "@/media/leaf.png"
 import Image from 'next/image'
 import { keyframes } from "styled-components"
-
+import Head from "next/head"
 const entranceAnimation = keyframes`
   0% {
     -webkit-transform: translateY(50px);
@@ -44,6 +44,13 @@ const Leaf = styled.div`
 `
 const DailyAdvice = (props : any) => {
   return (
+    <>
+        <Head>
+        <title>{`${props.name}'s Daily Advice`}</title>
+        <meta name="description" content="Daily Advice" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     <StyleContainer>
         <Leaf>
         <Image src={leaf} width={80} height={80} alt='wisdom tree image'/>
@@ -51,6 +58,7 @@ const DailyAdvice = (props : any) => {
         <h2>Hi {props.name} for your today advice:</h2>
         <StyleAdvice><q>{props.advice}</q></StyleAdvice>
     </StyleContainer>
+    </>
   )
 }
 
