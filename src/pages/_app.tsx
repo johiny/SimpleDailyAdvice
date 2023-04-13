@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { useState, useEffect } from 'react'
 import Router from 'next/router'
 import Loader from '@/components/Loader'
+import StyledComponentsRegistry from '@/components/stylesRegistry'
 
 export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(false)
@@ -22,9 +23,11 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [])
 
   return (
+  <StyledComponentsRegistry>
   <>
   {loading && <Loader />}
   <Component {...pageProps} />
   </>
+  </StyledComponentsRegistry>
   )
 }
