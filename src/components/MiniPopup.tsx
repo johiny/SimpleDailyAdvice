@@ -37,7 +37,7 @@ const Wrapper = styled.div`
         font-size: 1rem;
         color: #8D7B68;
     }
-    animation: ${props => props.isOpening ? slideIn : slideOut} ${props => props.isOpening ? '1s cubic-bezier(0.250, 0.460, 0.450, 0.940)' : '0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both'} ;
+    animation: ${props => props.isOpening ? slideIn : slideOut} ${props => props.isOpening ? '0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940)' : '1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both'} ;
 `
 
 const MiniPopup = ({setIsOpen, isOpen, text} : any) => {

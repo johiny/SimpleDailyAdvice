@@ -26,12 +26,15 @@ const PageContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   overflow-y: hidden;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+  min-height: 100vh;
 `;
 const AdviceContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
   justify-content: center;
   gap: 2vh;
   width: 50%;
@@ -120,11 +123,11 @@ const sentNewPost = async (name : string, newAdviceInput : HTMLInputElement, set
     return
   }
   setLoading(true)
-  let res = await fetch("/api/user_advices",{ method: "POST", body: JSON.stringify({name, aavice: newAdviceInput.value})});
+  let res = await fetch("/api/user_advices",{ method: "POST", body: JSON.stringify({name, advice: newAdviceInput.value})});
   res = await res.json();
-  newAdviceInput.value = "";
   setMessage("Your advice was sent!")
   setIsOpen(true)
+  newAdviceInput.value = "";
   setLoading(false)
 }
 const DailyAdvice = (props: any) => {
