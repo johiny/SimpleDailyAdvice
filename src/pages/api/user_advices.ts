@@ -19,7 +19,7 @@ export default async function postComment(
                 name: body.name,
                 advice: body.advice
             })
-            res.status(200).json(result)
+            return res.status(200).json(result)
           }
           catch (error){
               console.log(error)

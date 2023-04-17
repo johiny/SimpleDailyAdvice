@@ -55,6 +55,7 @@ const Leaf = styled.div`
 const Comments = ({data} : any) => {
   return (
     <Wrapper>
+      {data.length === 0 && <h2>There is no other advices for your name yet, be the first!</h2>}
         {data.map((comment : any) => {
           return(
             <AdviceContainer key={comment._id}>
