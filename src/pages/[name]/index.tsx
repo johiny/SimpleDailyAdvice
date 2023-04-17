@@ -6,6 +6,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { BubbleLoader } from "@/components/BubbleLoader";
 import { useState } from "react";
+import MiniPopup from "@/components/MiniPopup";
 const entranceAnimation = keyframes`
   0% {
     -webkit-transform: translateY(50px);
@@ -19,10 +20,12 @@ const entranceAnimation = keyframes`
   }
 `;
 const PageContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  overflow-y: hidden;
 `;
 const AdviceContainer = styled.div`
   display: flex;
@@ -110,15 +113,25 @@ const StyleButton = styled.button`
     background-color: #7e7061;
   }
 `
-const sentNewPost = async (name : string, newAdviceInput : HTMLInputElement, setLoading : Function) => {
+const sentNewPost = async (name : string, newAdviceInput : HTMLInputElement, setLoading : Function, setIsOpen : Function, setMessage: Function) => {
+  if(newAdviceInput.value.length < 8) {
+    setMessage("Your advice is too short!")
+    setIsOpen(true)
+    return
+  }
   setLoading(true)
   let res = await fetch("/api/user_advices",{ method: "POST", body: JSON.stringify({name, aavice: newAdviceInput.value})});
   res = await res.json();
   newAdviceInput.value = "";
+  setMessage("Your advice was sent!")
+  setIsOpen(true)
   setLoading(false)
 }
 const DailyAdvice = (props: any) => {
   const [loading, setLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [message, setMessage] = useState("")
+
   return (
     <>
       <Head>
@@ -132,10 +145,10 @@ const DailyAdvice = (props: any) => {
           {loading && <BubbleLoader/>}
           <br/>
           <h2>Want to share a tip with your namesakes?</h2>
-          <StyleTextArea id="newAdviceInput" placeholder="Write your advice here..." maxLength={100}/>
+          <StyleTextArea id="newAdviceInput" placeholder="Write your advice here..." maxLength={100} required/>
           <StyleButton onClick={() => {
             const newAdviceInput = document.querySelector("#newAdviceInput") as HTMLInputElement;
-            sentNewPost(props.name,newAdviceInput, setLoading)
+            sentNewPost(props.name,newAdviceInput, setLoading, setIsOpen, setMessage)
             }}>Share it!</StyleButton>
           </Bubble>
         <AdviceContainer>
@@ -152,6 +165,7 @@ const DailyAdvice = (props: any) => {
         <br/>
         <Link href={`${props.name}/comments`}><StyleButton>See Them!</StyleButton></Link>
         </Bubble>
+     {isOpen &&<MiniPopup isOpen={isOpen} setIsOpen={setIsOpen} text={message}/>}
       </PageContainer>
     </>
   );
