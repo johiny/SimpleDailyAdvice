@@ -4,6 +4,8 @@ import Image from "next/image";
 import { keyframes } from "styled-components";
 import Head from "next/head";
 import Link from "next/link";
+import { BubbleLoader } from "@/components/BubbleLoader";
+import { useState } from "react";
 const entranceAnimation = keyframes`
   0% {
     -webkit-transform: translateY(50px);
@@ -29,6 +31,7 @@ const AdviceContainer = styled.div`
   min-height: 100vh;
   justify-content: center;
   gap: 2vh;
+  width: 50%;
   h2 {
     animation: ${entranceAnimation} 1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   }
@@ -41,12 +44,12 @@ const StyleAdvice = styled.p`
   animation: ${entranceAnimation} 1.2s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 `;
 const Leaf = styled.div`
-  position: absolute;
+  position: relative;
   img {
     filter: invert(61%) sepia(4%) saturate(1791%) hue-rotate(349deg)
       brightness(95%) contrast(82%);
   }
-  top: 35vh;
+  
   transform: rotate(12deg);
   animation: ${entranceAnimation} 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 `;
@@ -57,8 +60,8 @@ const Bubble = styled.div`
   flex-direction: column;
   width: 30vh;
   height: 30vh;
-  border-radius: 50%;
-  box-shadow: 0px 0px 20px -10px #a4907c;
+  border-radius: 10%;
+  box-shadow: 0px 0px 18px -12px #a4907c;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -70,7 +73,9 @@ const Bubble = styled.div`
   gap: 0.5vh;
 `;
 
-const StyleTextArea = styled.input`
+const StyleTextArea = styled.textarea`
+margin-top: 2vh;
+margin-bottom: 2vh;
 background-color: #A4907C;
   border: none;
   text-align: center;
@@ -79,7 +84,15 @@ background-color: #A4907C;
   font-weight: 500;
   font-size: 1rem;
   border-radius: 5px;
-  height: 5vh;
+  overflow-y: hidden;
+  text-align-last: center;
+  resize: none;
+  padding: 1vh;
+  ::placeholder{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    color: #F1DEC9;
+  }
   :focus{
     outline: none;
   }
@@ -91,18 +104,21 @@ const StyleButton = styled.button`
   color: #F1DEC9;
   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 5px;
   :hover{
     background-color: #7e7061;
   }
 `
-const sentNewPost = async (advice : string) => {
-  let res = await fetch("/api/post_comments",{ method: "POST", body: JSON.stringify({advice})});
+const sentNewPost = async (name : string, newAdviceInput : HTMLInputElement, setLoading : Function) => {
+  setLoading(true)
+  let res = await fetch("/api/user_advices",{ method: "POST", body: JSON.stringify({name, aavice: newAdviceInput.value})});
   res = await res.json();
-  console.log(res)
+  newAdviceInput.value = "";
+  setLoading(false)
 }
 const DailyAdvice = (props: any) => {
+  const [loading, setLoading] = useState(false)
   return (
     <>
       <Head>
@@ -113,11 +129,13 @@ const DailyAdvice = (props: any) => {
       </Head>
       <PageContainer>
         <Bubble>
+          {loading && <BubbleLoader/>}
+          <br/>
           <h2>Want to share a tip with your namesakes?</h2>
-          <StyleTextArea id="newAdviceInput" placeholder="Write your advice here..." type="text" maxLength={100}/>
+          <StyleTextArea id="newAdviceInput" placeholder="Write your advice here..." maxLength={100}/>
           <StyleButton onClick={() => {
             const newAdviceInput = document.querySelector("#newAdviceInput") as HTMLInputElement;
-            sentNewPost(newAdviceInput.value)
+            sentNewPost(props.name,newAdviceInput, setLoading)
             }}>Share it!</StyleButton>
           </Bubble>
         <AdviceContainer>

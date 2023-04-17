@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import { keyframes } from 'styled-components'
+import React from "react";
+import styled from "styled-components";
+import { keyframes } from "styled-components";
 
 const lds_heart = keyframes`
  0% {
@@ -30,6 +30,7 @@ const Wrapper = styled.div`
   align-items: center;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10%;
   .lds-heart {
   display: inline-block;
   position: relative;
@@ -37,7 +38,6 @@ const Wrapper = styled.div`
   height: 80px;
   transform: rotate(45deg);
   transform-origin: 40px 40px;
-  z-index: 15;
 }
 .lds-heart div {
   top: 32px;
@@ -65,14 +65,13 @@ const Wrapper = styled.div`
   top: -24px;
   border-radius: 50% 50% 0 0;
 }
-`
 
-const Loader = () => {
+`;
+
+export const BubbleLoader = () => {
   return (
     <Wrapper>
      <div className="lds-heart"><div></div></div>
     </Wrapper>
-  )
-}
-
-export default Loader
+  );
+};
