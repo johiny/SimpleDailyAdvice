@@ -25,7 +25,7 @@ const slideOut = keyframes`
     opacity: 0;
   }
 `
-const Wrapper = styled.div`
+const Wrapper = styled.div<any>`
     position: absolute;
     padding: 3vh 5vw;
     bottom: 1vh;
