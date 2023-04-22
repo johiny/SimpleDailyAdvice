@@ -1,12 +1,14 @@
 import styled from "styled-components";
-import leaf from "@/media/leaf.png";
+import leaf from "@/media/leaf.svg";
 import Image from "next/image";
 import { keyframes } from "styled-components";
 import Head from "next/head";
 import Link from "next/link";
 import { BubbleLoader } from "@/components/BubbleLoader";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MiniPopup from "@/components/MiniPopup";
+import SocialNetworks from "@/components/SocialNetworks";
+
 const entranceAnimation = keyframes`
   0% {
     -webkit-transform: translateY(50px);
@@ -37,11 +39,17 @@ const AdviceContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2vh;
-  width: 50%;
+  padding: 5vh;
   h2 {
     animation: ${entranceAnimation} 1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   }
 `;
+const CenterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
 const StyleAdvice = styled.p`
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
@@ -134,7 +142,7 @@ const DailyAdvice = (props: any) => {
   const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [message, setMessage] = useState("")
-
+  const adviceContainer = useRef<HTMLDivElement>(null)
   return (
     <>
       <Head>
@@ -154,15 +162,19 @@ const DailyAdvice = (props: any) => {
             sentNewPost(props.name,newAdviceInput, setLoading, setIsOpen, setMessage)
             }}>Share it!</StyleButton>
           </Bubble>
-        <AdviceContainer>
+        <CenterContainer>
+        <AdviceContainer ref={adviceContainer}>
           <Leaf>
-            <Image src={leaf} width={80} height={80} alt="wisdom tree image" />
+            <Image src={leaf} width={100} height={100} alt="wisdom tree image" />
           </Leaf>
           <h2>Hi {props.name} for your today advice:</h2>
           <StyleAdvice>
             <q>{props.advice}</q>
           </StyleAdvice>
-        </AdviceContainer>
+          </AdviceContainer>
+          <br/>
+          <SocialNetworks adviceContainer={adviceContainer}/>
+        </CenterContainer>
         <Bubble>
         <h2>Wanna see others advices shared by your namesakes?</h2>
         <br/>

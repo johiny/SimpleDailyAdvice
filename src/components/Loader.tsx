@@ -30,6 +30,7 @@ const Wrapper = styled.div`
   align-items: center;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.2);
+  z-index: 15;
   .lds-heart {
   display: inline-block;
   position: relative;
