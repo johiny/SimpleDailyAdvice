@@ -55,7 +55,7 @@ const Leaf = styled.div`
 const Comments = ({data} : any) => {
   return (
     <Wrapper>
-      {data.length === 0 && <h2>There is no other advices for your name yet, be the first!</h2>}
+      {data.length === 0 && <h2>There is no other advices for your name yet or the DB could have died contact me!</h2>}
         {data.map((comment : any) => {
           return(
             <AdviceContainer key={comment._id}>
@@ -72,6 +72,7 @@ const Comments = ({data} : any) => {
 
 export const getServerSideProps = async ({query} : any) => {
   const endpoint = `${process.env.DOMAIN}/api/user_advices?name=${query.name}`
+  try{
   const res = await fetch(endpoint, {method: "GET"})
   const data = await res.json()
   return {
@@ -79,6 +80,14 @@ export const getServerSideProps = async ({query} : any) => {
       data
     },
   }
+}
+catch(e){
+  return{
+    props: {
+      data: []
+    }
+  }
+}
 }
 
 export default Comments

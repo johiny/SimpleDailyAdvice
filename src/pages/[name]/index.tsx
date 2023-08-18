@@ -131,12 +131,22 @@ const sentNewPost = async (name : string, newAdviceInput : HTMLInputElement, set
     return
   }
   setLoading(true)
-  let res = await fetch("/api/user_advices",{ method: "POST", body: JSON.stringify({name, advice: newAdviceInput.value})});
-  res = await res.json();
-  setMessage("Your advice was sent!")
-  setIsOpen(true)
-  newAdviceInput.value = "";
-  setLoading(false)
+  try{
+    let res = await fetch("/api/user_advices",{ method: "POST", body: JSON.stringify({name, advice: newAdviceInput.value})});
+    if(res.status === 500){
+      setMessage(`Your advice was not sent!, looks like there was an error on the DB`)
+      setIsOpen(true)
+      setLoading(false)
+      return
+    } 
+    setMessage("Your advice was sent!")
+    setIsOpen(true)
+    newAdviceInput.value = "";
+    setLoading(false)
+  }
+  catch(e){
+    console.log(e)
+  }
 }
 const DailyAdvice = (props: any) => {
   const [loading, setLoading] = useState(false)

@@ -63,7 +63,8 @@ export default function Home() {
   const router = useRouter();
   const [name, setName] = useState("");
   const navTo = (name: string) => {
-    router.push(`/${name}`);
+    // router.push(`/${name}`);
+    window.location.href = `/${name}`
   };
   return (
     <>

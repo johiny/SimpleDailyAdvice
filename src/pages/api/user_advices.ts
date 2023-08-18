@@ -22,7 +22,7 @@ export default async function postComment(
             return res.status(200).json(result)
           }
           catch (error){
-              console.log(error)
+            res.status(500).json({message: "Error terrible parece que algo paso con mongo"})
           }
     }
     if(req.method === "GET") {
@@ -34,7 +34,7 @@ export default async function postComment(
             return res.status(200).json(newestComments)
     }
     catch(error){
-        console.log(error)
+        res.status(500).json({message: "Error terrible parece que algo paso con mongo"})
     }
   }
 }
