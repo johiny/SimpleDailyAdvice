@@ -139,7 +139,7 @@ const sentNewPost = async (name : string, newAdviceInput : HTMLInputElement, set
       setLoading(false)
       return
     } 
-    setMessage("Your advice was sent!")
+    setMessage(`Your advice was sent!`)
     setIsOpen(true)
     newAdviceInput.value = "";
     setLoading(false)

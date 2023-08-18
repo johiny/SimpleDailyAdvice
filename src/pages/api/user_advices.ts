@@ -14,6 +14,7 @@ export default async function postComment(
             const client = await clientPromise;
             const db = client.db(process.env.MONGODB_DB_NAME);
             const comments = db.collection("user_advices");
+            comments.createIndex({ "createdAt": 1 }, { expireAfterSeconds: 86400 });
             const result = await comments.insertOne({
                 date: new Date(),
                 name: body.name,
