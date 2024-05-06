@@ -53,10 +53,12 @@ const Leaf = styled.div`
   animation: ${entranceAnimation} 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 `;
 const Comments = ({data} : any) => {
+  console.log("data que esta llegando", data, Array.isArray(data))
   return (
     <Wrapper>
-      {data.length === 0 && <h2>There is no other advices for your name yet or the DB could have died contact me!</h2>}
-        {data.map((comment : any) => {
+      {!Array.isArray(data) ? 
+      <h2>There is no other advices for your name yet or the DB could have died contact me!</h2> :
+        data?.map((comment : any) => {
           return(
             <AdviceContainer key={comment._id}>
               <Leaf>
